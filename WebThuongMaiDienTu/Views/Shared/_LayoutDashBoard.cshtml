@@ -1,0 +1,130 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="~/Content/css/Edit.css">
+    <link rel="stylesheet" href="~/Content/css/Index.css">
+    <link rel="stylesheet" href="~/Content/css/Create.css">
+    <link rel="stylesheet" href="~/Content/css/LayoutDashBoard.css">
+</head>
+<body>
+    <div class="sidebar">
+        <ul>
+            <a href="/SanPham/Index">
+            <li><i class="fas fa-box"></i> Sản Phẩm</li></a>
+            <a href="/KhachHang/Index">
+            <li><i class="fas fa-users"></i> Khách Hàng</li></a>
+            <a href="/TaiKhoan/Index">
+            <li><i class="fas fa-user-circle"></i> Tài Khoản</li></a>
+            <a href="/HangSanXuat/Index">
+            <li><i class="fas fa-industry"></i> Hãng Sản Xuất</li></a>
+            <a href="/GioHang/Index">
+            <li><i class="fas fa-shopping-cart"></i> Giỏ Hàng</li></a>
+            <a href="/DonHang/Index">
+            <li><i class="fas fa-file-invoice"></i> Đơn Hàng</li></a>
+            <a href="/ChiTietGioHang/Index">
+            <li><i class="fas fa-list-ul"></i> Chi Tiết Giỏ Hàng</li></a>
+            <a href="/ChiTietDonHang/Index">
+            <li><i class="fas fa-receipt"></i> Chi Tiết Đơn Hàng</li></a>
+        </ul>
+    </div>
+
+
+    <div class="main-content">
+        <div class="header">            
+            <div class="profile-icons">
+                <i class="fas fa-bell"></i>
+                <i class="fas fa-envelope"></i>
+                <i class="fas fa-user"></i>
+            </div>
+        </div>
+        <div class="masterpage-container">
+            @RenderBody()
+        </div>
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-links">
+                    <a href="#">About Us</a>
+                    <a href="#">Contact</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                </div>
+                <div class="footer-social">
+                    <i class="fab fa-facebook"></i>
+                    <i class="fab fa-twitter"></i>
+                    <i class="fab fa-instagram"></i>
+                    <i class="fab fa-linkedin"></i>
+                </div>
+            </div>
+            <p>&copy; 2023 Your Company Name. All rights reserved.</p>
+        </footer>
+    </div>
+    <script>
+        // Add some interactivity
+        document.querySelectorAll('.sidebar ul li').forEach(item => {
+            item.addEventListener('click', function () {
+                document.querySelector('.sidebar ul li.active').classList.remove('active');
+                this.classList.add('active');
+            });
+        });
+
+        // Add hover effect to sidebar
+        const sidebar = document.querySelector('.sidebar');
+        sidebar.addEventListener('mouseenter', () => {
+            if (window.innerWidth > 768) {
+                sidebar.style.width = '270px';
+            }
+        });
+        sidebar.addEventListener('mouseleave', () => {
+            if (window.innerWidth > 768) {
+                sidebar.style.width = '250px';
+            }
+        });
+
+        // Add pulse effect to profile icons
+        document.querySelectorAll('.profile-icons i').forEach(icon => {
+            icon.addEventListener('click', function () {
+                this.style.animation = 'pulse 0.5s';
+                setTimeout(() => {
+                    this.style.animation = '';
+                }, 500);
+            });
+        });
+
+        // Add keyframe for pulse effect
+        const style = document.createElement('style');
+        style.textContent = `
+                @@keyframes pulse {
+                    0% { transform: scale(1); }
+                    50% { transform: scale(1.2); }
+                    100% { transform: scale(1); }
+                }
+            `;
+        document.head.appendChild(style);
+
+        // Responsive sidebar toggle
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.style.display = sidebar.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // Add resize listener
+        window.addEventListener('resize', () => {
+            const sidebar = document.querySelector('.sidebar');
+            if (window.innerWidth > 768) {
+                sidebar.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
+
+
+
+

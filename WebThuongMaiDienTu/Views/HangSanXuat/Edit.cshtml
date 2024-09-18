@@ -1,0 +1,28 @@
+﻿@model WebThuongMaiDienTu.Models.HangSanXuat
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_LayoutDashBoard.cshtml";
+}
+
+<div class="container">
+    <form action="/HangSanXuat/Edit/@Model.maHang" method="post">
+        <h2>Nhập Thông Tin Hãng Sản Xuất</h2>
+
+        <label for="maHang">Mã Hãng Sản Xuất:</label>
+        <input type="text" id="maHang" name="maHang" value="@Model.maHang" readonly>
+
+        <label for="tenHang">Tên Hãng:</label>
+        <input type="text" id="tenHang" name="tenHang" value="@Model.tenHang">
+
+        <label for="moTa">Mô Tả:</label>
+        <textarea id="moTa" name="moTa" rows="4" maxlength="200">@Model.moTa</textarea>
+
+        <div class="button-group">
+            <button type="submit" class="btn btn-primary">Chỉnh Sửa</button>
+            <a href="/HangSanXuat" class="btn btn-secondary">Thoát</a>
+        </div>
+    </form>
+</div>
+
+

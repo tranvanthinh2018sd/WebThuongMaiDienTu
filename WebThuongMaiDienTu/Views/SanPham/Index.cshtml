@@ -1,0 +1,126 @@
+﻿@model List<WebThuongMaiDienTu.Models.SanPham>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutDashBoard.cshtml";
+}
+<link rel="stylesheet" href="~/Content/css/Index.css">
+
+<div class="container">
+    <h1><i class="fas fa-box-open"></i> Danh Sách Sản Phẩm</h1>
+    <a href="/SanPham/Create"><button class="btn btn-add"><i class="fas fa-plus"></i></button></a>
+    <table>
+        <thead>
+            <tr>
+                <th><i class="fas fa-barcode"></i> Mã Hãng Sản Xuất</th>
+                <th><i class="fas fa-tag"></i> Tên Sản Phẩm</th>
+                <th><i class="fas fa-tag"></i> Mô Tả</th>
+                <th><i class="fas fa-info-circle"></i> Hình Ảnh</th>
+                <th><i class="fas fa-info-circle"></i> Giá Bán</th>
+                <th><i class="fas fa-info-circle"></i> Giá Khuyến Mãi</th>
+                <th><i class="fas fa-cogs"></i> Thao Tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var items in Model)
+            {
+                <tr>
+                    <td>@items.maSanPham</td>
+                    <td>@items.tenSanPham</td>
+                    <td>@items.moTa</td>
+                    <td><img src="@items.hinhAnh" class="product-image"></td>
+                    <td>@items.giaBan</td>
+                    <td>@items.giaKhuyenMai</td>
+                    <td class="actions">
+                        <a href="@Url.Action("Edit", "SanPham", new { maSanPham = items.maSanPham })"><button class="btn btn-edit" title="Chỉnh sửa"><i class="fas fa-edit"></i></button></a>
+                        <a href="@Url.Action("Delete", "SanPham", new { maSanPham = items.maSanPham })"><button class="btn btn-delete" title="Xóa"><i class="fas fa-trash-alt"></i></button></a>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>
+
+@*Đoạn code phân trang*@
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Số sản phẩm mỗi trang
+        var itemsPerPage = 5;
+        var products = document.querySelectorAll("tbody tr"); // Lấy tất cả các dòng sản phẩm
+        var totalItems = products.length; // Tổng số sản phẩm
+        var totalPages = Math.ceil(totalItems / itemsPerPage); // Tổng số trang
+
+        // Hiển thị sản phẩm dựa trên trang hiện tại
+        function showPage(pageNumber) {
+            var start = (pageNumber - 1) * itemsPerPage;
+            var end = start + itemsPerPage;
+
+            // Ẩn tất cả sản phẩm
+            products.forEach(function (product, index) {
+                product.style.display = (index >= start && index < end) ? "table-row" : "none";
+            });
+        }
+
+        // Tạo phân trang
+        function createPagination() {
+            var pagination = document.createElement("div");
+            pagination.classList.add("pagination");
+
+            // Tạo các nút phân trang
+            for (let i = 1; i <= totalPages; i++) {
+                let pageButton = document.createElement("button");
+                pageButton.textContent = i;
+                pageButton.classList.add("page-btn");
+                pageButton.addEventListener("click", function () {
+                    showPage(i);
+                    setActivePage(i);
+                });
+
+                pagination.appendChild(pageButton);
+            }
+
+            document.querySelector(".container").appendChild(pagination);
+        }
+
+        // Đặt nút hiện tại là active
+        function setActivePage(activePage) {
+            document.querySelectorAll(".page-btn").forEach(function (btn, index) {
+                btn.classList.toggle("active", index + 1 === activePage);
+            });
+        }
+
+        // Khởi tạo trang đầu tiên và tạo nút phân trang
+        showPage(1);
+        createPagination();
+        setActivePage(1);
+    });
+</script>
+
+
+<style>
+    .pagination {
+        margin-top: 20px;
+        text-align: center;
+    }
+
+        .pagination button {
+            margin: 0 5px;
+            padding: 8px 12px;
+            border: none;
+            background-color: #f0f0f0;
+            cursor: pointer;
+        }
+
+            .pagination button.active {
+                background-color: #007bff;
+                color: white;
+            }
+
+            .pagination button:hover {
+                background-color: #007bff;
+                color: white;
+            }
+
+</style>

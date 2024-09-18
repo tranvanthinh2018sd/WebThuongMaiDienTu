@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="fb49fe2f410d438e809b33e077ed07d8" Name="Diagram1">
+        <EntityTypeShape EntityType="ShopDienThoaiModel.ChiTietDonHang" Width="1.5" PointX="5.25" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDienThoaiModel.ChiTietGioHang" Width="1.5" PointX="5.25" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDienThoaiModel.DonHang" Width="1.5" PointX="3" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDienThoaiModel.GioHang" Width="1.5" PointX="3" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDienThoaiModel.HangSanXuat" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDienThoaiModel.KhachHang" Width="1.5" PointX="0.75" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDienThoaiModel.SanPham" Width="1.5" PointX="3" PointY="11.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopDienThoaiModel.TaiKhoan" Width="1.5" PointX="3" PointY="7.25" IsExpanded="true" />
+        <AssociationConnector Association="ShopDienThoaiModel.FK__ChiTietDo__maDon__693CA210" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDienThoaiModel.FK__ChiTietDo__maSan__6A30C649" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDienThoaiModel.FK__ChiTietGi__maGio__70DDC3D8" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDienThoaiModel.FK__ChiTietGi__maSan__71D1E811" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDienThoaiModel.FK__DonHang__maKhach__4CA06362" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDienThoaiModel.FK__GioHang__maKhach__45F365D3" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDienThoaiModel.FK__TaiKhoan__maKhac__3B75D760" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopDienThoaiModel.FK_SanPham_HangSanXuat" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,37 @@
+﻿@model WebThuongMaiDienTu.Models.HangSanXuat
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_LayoutDashBoard.cshtml";
+}
+
+<div class="container">
+    <form @Url.Action("Create", "HangSanXuat") method="post">
+        <h2>Nhập Thông Tin Hãng Sản Xuất</h2>
+
+        <div class="form-group">
+            <label for="maHang">Mã Hãng Sản Xuất</label>
+            <input type="text" id="maHang" name="maHang" class="form-control" readonly />
+        </div>
+
+        <div class="form-group">
+            <label for="tenHang">Tên Hãng</label>
+            <input type="text" id="tenHang" name="tenHang" class="form-control" />            
+        </div>
+
+        <div class="form-group">
+            <label for="moTa">Mô Tả</label>
+            <textarea id="moTa" name="moTa" class="form-control" rows="4" maxlength="200"></textarea>           
+        </div>
+
+        <div class="button-group">
+            <button type="submit" class="btn btn-primary">Thêm Mới</button>
+            <a href="/HangSanXuat/Index" class="btn btn-secondary">Thoát</a>
+        </div>
+    </form>
+</div>
+
+
+<!--<script src="~/Scripts/jquery-3.0.0.min.js"></script>--> <!-- jQuery -->
+<!--<script src="~/Scripts/jquery.validate.min.js"></script>--> <!-- jQuery Validation -->
+<!--<script src="/Scripts/jquery.validate.unobtrusive.min.js"></script>--> <!-- jQuery Unobtrusive Validation -->
