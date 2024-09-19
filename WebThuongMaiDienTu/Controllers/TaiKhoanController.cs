@@ -5,6 +5,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using WebThuongMaiDienTu.Models;
 
 namespace WebThuongMaiDienTu.Controllers
@@ -91,11 +92,10 @@ namespace WebThuongMaiDienTu.Controllers
         // POST: TaiKhoan/DangNhap
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DangNhap(DangNhapViewModel model)
+        public ActionResult DangNhap(DangNhapViewModel model, string returnUrl)
         {
             using (var db = new shopDienThoaiEntities())
             {
-                // Tìm tài khoản trong cơ sở dữ liệu theo tên đăng nhập
                 var taiKhoan = db.TaiKhoan.SingleOrDefault(t => t.tenTaiKhoan == model.tenTaiKhoan);
 
                 if (taiKhoan == null || taiKhoan.matKhau != HashPassword(model.matKhau))
@@ -104,13 +104,20 @@ namespace WebThuongMaiDienTu.Controllers
                     return View(model);
                 }
 
-                // Nếu đăng nhập thành công, bạn có thể thực hiện các hành động như lưu thông tin người dùng vào session
-                Session["TaiKhoan"] = taiKhoan;
+                // Đăng nhập thành công
+                FormsAuthentication.SetAuthCookie(taiKhoan.tenTaiKhoan, false);
 
-                return RedirectToAction("Index"); // Hoặc trang nào đó bạn muốn chuyển hướng sau khi đăng nhập thành công
+                // Chuyển hướng về trang yêu cầu hoặc trang mặc định
+                if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                {
+                    return Redirect(returnUrl);
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Home");
+                }
             }
         }
-
 
         private string HashPassword(string password)
         {

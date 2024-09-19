@@ -11,7 +11,7 @@ namespace WebThuongMaiDienTu.Controllers
     public class SanPhamController : Controller
     {
         // GET: SanPham
-        // GET: SanPham
+        [Authorize]
         public ActionResult Index()
         {
             shopDienThoaiEntities db = new shopDienThoaiEntities();
@@ -24,7 +24,7 @@ namespace WebThuongMaiDienTu.Controllers
 
             return View(sanpham);
         }
-
+        [Authorize]
         public ActionResult Create()
         {
             //trả về danh sách hãng sản xuất
@@ -70,6 +70,7 @@ namespace WebThuongMaiDienTu.Controllers
             }
         }
         //Edit
+        [Authorize]
         public ActionResult Edit(int maSanPham)
         {
             shopDienThoaiEntities db = new shopDienThoaiEntities();
@@ -115,6 +116,7 @@ namespace WebThuongMaiDienTu.Controllers
                     return RedirectToAction("Edit");
         }
         //Delete
+        [Authorize]
         public ActionResult Delete(int maSanPham)
         {
             shopDienThoaiEntities db = new shopDienThoaiEntities();

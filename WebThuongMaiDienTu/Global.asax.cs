@@ -7,6 +7,10 @@ using System.Web.Routing;
 using System.Web.Security;
 using System.Web.SessionState;
 using System.Web.Http;
+using Microsoft.Owin.Security.Cookies;
+using Microsoft.AspNet.Identity;
+using System.Web.Optimization;
+
 
 namespace WebThuongMaiDienTu
 {
@@ -16,8 +20,9 @@ namespace WebThuongMaiDienTu
         {
             // Code that runs on application startup
             AreaRegistration.RegisterAllAreas();
-            GlobalConfiguration.Configure(WebApiConfig.Register);
-            RouteConfig.RegisterRoutes(RouteTable.Routes);            
+            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+            RouteConfig.RegisterRoutes(RouteTable.Routes);
+            BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
     }
 }

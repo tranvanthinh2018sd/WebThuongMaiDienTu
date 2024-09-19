@@ -4,5 +4,16 @@
     Layout = "~/Views/Shared/_LayoutDashBoard.cshtml";
 }
 
+@if (User.Identity.IsAuthenticated)
+{
+    <p>Chào, @User.Identity.Name!</p>
+    <a href="@Url.Action("DangXuat", "TaiKhoan")">Đăng xuất</a>
+}
+else
+{
+    <a href="@Url.Action("DangNhap", "TaiKhoan")">Đăng nhập</a>
+}
+
+
 <h2>Index</h2>
 
