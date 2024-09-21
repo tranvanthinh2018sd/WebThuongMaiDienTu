@@ -28,7 +28,6 @@ namespace WebThuongMaiDienTu.Controllers
         [ValidateAntiForgeryToken] // Bảo vệ chống tấn công CSRF
         public ActionResult DangKy(DangKyViewModel model)
         {           
-
             using (var db = new shopDienThoaiEntities())
             {
                 using (var transaction = db.Database.BeginTransaction())
@@ -38,8 +37,10 @@ namespace WebThuongMaiDienTu.Controllers
                         // Kiểm tra xem tài khoản hoặc email đã tồn tại chưa
                         if (db.TaiKhoan.Any(t => t.tenTaiKhoan == model.TenTaiKhoan || t.email == model.Email))
                         {
-                            ModelState.AddModelError("", "Tên tài khoản hoặc email đã tồn tại.");
-                            return View(model);
+                            /*ModelState.AddModelError("", "Tên tài khoản hoặc email đã tồn tại.");
+                            return View(model);*/
+                            string script = "alert('Email đã tồn tại!');history.back();";
+                            return Content("<script type='text/javascript'>" + script + "</script>");
                         }
 
                         // Lưu thông tin khách hàng
@@ -81,13 +82,15 @@ namespace WebThuongMaiDienTu.Controllers
                     {
                         // Rollback nếu có lỗi
                         transaction.Rollback();
-                        ModelState.AddModelError("", "Đã xảy ra lỗi khi đăng ký. Vui lòng thử lại.");
-                        return View(model);
+                        /* ModelState.AddModelError("", "Đã xảy ra lỗi khi đăng ký. Vui lòng thử lại.");
+                         return View(model);*/
+                        string script = "alert('Đã xảy ra lỗi khi đăng ký tài khoản!');history.back();";
+                        return Content("<script type='text/javascript'>" + script + "</script>");
                     }
                 }
             }
 
-            return RedirectToAction("Index");
+            return RedirectToAction("DangNhap","TaiKhoan");
         }
 
 
@@ -116,7 +119,10 @@ namespace WebThuongMaiDienTu.Controllers
                 FormsAuthentication.SetAuthCookie(taiKhoan.tenTaiKhoan, false);
                 // Thêm thông tin tài khoản vào Session
                 Session["TaiKhoan"] = taiKhoan; // Lưu đối tượng `TaiKhoan` vào session
-
+                if(taiKhoan.taiKhoanAdmin == false)
+                {
+                    return RedirectToAction("Index", "Shop");
+                }
                 // Chuyển hướng về trang yêu cầu hoặc trang mặc định
                 if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
                 {
@@ -126,6 +132,7 @@ namespace WebThuongMaiDienTu.Controllers
                 {
                     return RedirectToAction("Index", "Home");
                 }
+
             }
         }
         public ActionResult DangXuat()
