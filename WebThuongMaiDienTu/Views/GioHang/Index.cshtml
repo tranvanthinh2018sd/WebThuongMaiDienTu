@@ -1,4 +1,4 @@
-﻿@model WebThuongMaiDienTu.Models.GioHang
+﻿@model List<WebThuongMaiDienTu.Models.GioHang>
 
 @{
     ViewBag.Title = "Index";
@@ -10,14 +10,13 @@
 
 <link rel="stylesheet" href="~/Content/css/Index.css">
 <div class="container">
-    <h1><i class="fas fa-box-open"></i> Danh Sách Hãng Sản Xuất</h1>
-    <a href="/HangSanXuat/Create"><button class="btn btn-add"><i class="fas fa-plus"></i></button></a>
+    <h1><i class="fas fa-box-open"></i> Danh Sách Giỏ Hàng</h1>    
     <table>
         <thead>
             <tr>
                 <th><i class="fas fa-barcode"></i> Mã Giỏ Hàng</th>
                 <th><i class="fas fa-tag"></i> Khách Hàng</th>
-                <th><i class="fas fa-info-circle"></i> Mô Tả</th>
+                <th><i class="fas fa-info-circle"></i> Ngày Tạo</th>
                 <th><i class="fas fa-cogs"></i> Thao Tác</th>
             </tr>
         </thead>
@@ -26,11 +25,10 @@
             {
                 <tr>
                     <td>@items.maGioHang</td>
-                    <td>@items.tenHang</td>
-                    <td>@items.moTa</td>
+                    <td>@items.KhachHang.hoTen</td>
+                    <td>@items.ngayTao</td>
                     <td class="actions">
-                        <a href="@Url.Action("Edit", "GioHang", new { maHang = items.maHang })"><button class="btn btn-edit" title="Chỉnh sửa"><i class="fas fa-edit"></i></button></a>
-                        <a href="@Url.Action("Delete", "GioHang", new { maHang = items.maHang })"><button class="btn btn-delete" title="Xóa"><i class="fas fa-trash-alt"></i></button></a>
+                        <a href="@Url.Action("Edit", "GioHang", new { maHang = items.maGioHang })"><button class="btn btn-edit" title="Chỉnh sửa"><i class="fas fa-edit"></i></button></a>                       
                     </td>
                 </tr>
             }

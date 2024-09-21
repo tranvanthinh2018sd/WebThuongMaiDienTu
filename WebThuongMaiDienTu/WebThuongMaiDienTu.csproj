@@ -306,6 +306,11 @@
     <Content Include="Views\SanPham\Delete.cshtml" />
     <Content Include="Views\TaiKhoan\DangKy.cshtml" />
     <Content Include="Views\TaiKhoan\DangNhap.cshtml" />
+    <Content Include="Views\GioHang\Edit.cshtml" />
+    <Content Include="Views\DonHang\Edit.cshtml" />
+    <Content Include="Views\ChiTietDonHang\Edit.cshtml" />
+    <Content Include="Views\ChiTietGioHang\Edit.cshtml" />
+    <Content Include="Views\KhachHang\Edit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -16,5 +16,7 @@ namespace WebThuongMaiDienTu.Models
         public string HoTen { get; set; }
         public string DiaChiGiaoHang { get; set; }
         public string SoDienThoai { get; set; }
+        // Thông Tin Giỏ Hàng
+        
     }
 }

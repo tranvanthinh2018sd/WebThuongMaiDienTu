@@ -11,11 +11,16 @@ namespace WebThuongMaiDienTu.Controllers
     public class SanPhamController : Controller
     {
         // GET: SanPham
-        [Authorize]
         public ActionResult Index()
         {
+            // Kiểm tra quyền admin
+            var taiKhoan = (TaiKhoan)Session["TaiKhoan"];
+            if (taiKhoan == null || taiKhoan.taiKhoanAdmin != true)
+            {
+                // Nếu không có quyền admin, chuyển hướng về trang đăng nhập
+                return RedirectToAction("DangNhap", "TaiKhoan");
+            }
             shopDienThoaiEntities db = new shopDienThoaiEntities();
-
             // Lọc sản phẩm có kichHoat == true và sắp xếp theo maSanPham giảm dần
             List<SanPham> sanpham = db.SanPham
                 .Where(row => row.kichHoat == true) // Điều kiện lọc
@@ -24,9 +29,16 @@ namespace WebThuongMaiDienTu.Controllers
 
             return View(sanpham);
         }
-        [Authorize]
+        //Create
         public ActionResult Create()
         {
+            // Kiểm tra quyền admin
+            var taiKhoan = (TaiKhoan)Session["TaiKhoan"];
+            if (taiKhoan == null || taiKhoan.taiKhoanAdmin != true)
+            {
+                // Nếu không có quyền admin, chuyển hướng về trang đăng nhập
+                return RedirectToAction("DangNhap", "TaiKhoan");
+            }
             //trả về danh sách hãng sản xuất
             shopDienThoaiEntities db = new shopDienThoaiEntities();   
             ViewBag.HangSanXuat = db.HangSanXuat.ToList();            
@@ -35,6 +47,13 @@ namespace WebThuongMaiDienTu.Controllers
         [HttpPost]
         public ActionResult Create(SanPham sanpham, HttpPostedFileBase hinhAnh)
         {
+            // Kiểm tra quyền admin
+            var taiKhoan = (TaiKhoan)Session["TaiKhoan"];
+            if (taiKhoan == null || taiKhoan.taiKhoanAdmin != true)
+            {
+                // Nếu không có quyền admin, chuyển hướng về trang đăng nhập
+                return RedirectToAction("DangNhap", "TaiKhoan");
+            }
             using (shopDienThoaiEntities db = new shopDienThoaiEntities())
             {
                 // Kích hoạt sản phẩm
@@ -70,9 +89,15 @@ namespace WebThuongMaiDienTu.Controllers
             }
         }
         //Edit
-        [Authorize]
         public ActionResult Edit(int maSanPham)
         {
+            // Kiểm tra quyền admin
+            var taiKhoan = (TaiKhoan)Session["TaiKhoan"];
+            if (taiKhoan == null || taiKhoan.taiKhoanAdmin != true)
+            {
+                // Nếu không có quyền admin, chuyển hướng về trang đăng nhập
+                return RedirectToAction("DangNhap", "TaiKhoan");
+            }
             shopDienThoaiEntities db = new shopDienThoaiEntities();
             SanPham sanPham = db.SanPham.Where(row => row.maSanPham == maSanPham).FirstOrDefault();
             ViewBag.HangSanXuat = db.HangSanXuat.ToList();
@@ -81,7 +106,14 @@ namespace WebThuongMaiDienTu.Controllers
         [HttpPost]
         public ActionResult Edit(SanPham sanpham, HttpPostedFileBase hinhAnh)
         {
-                shopDienThoaiEntities db = new shopDienThoaiEntities();
+            // Kiểm tra quyền admin
+            var taiKhoan = (TaiKhoan)Session["TaiKhoan"];
+            if (taiKhoan == null || taiKhoan.taiKhoanAdmin != true)
+            {
+                // Nếu không có quyền admin, chuyển hướng về trang đăng nhập
+                return RedirectToAction("DangNhap", "TaiKhoan");
+            }
+            shopDienThoaiEntities db = new shopDienThoaiEntities();
                 SanPham sanPham = db.SanPham.Where(row => row.maSanPham == sanpham.maSanPham).FirstOrDefault();
                 if(sanpham != null)
                 {
@@ -116,9 +148,15 @@ namespace WebThuongMaiDienTu.Controllers
                     return RedirectToAction("Edit");
         }
         //Delete
-        [Authorize]
         public ActionResult Delete(int maSanPham)
         {
+            // Kiểm tra quyền admin
+            var taiKhoan = (TaiKhoan)Session["TaiKhoan"];
+            if (taiKhoan == null || taiKhoan.taiKhoanAdmin != true)
+            {
+                // Nếu không có quyền admin, chuyển hướng về trang đăng nhập
+                return RedirectToAction("DangNhap", "TaiKhoan");
+            }
             shopDienThoaiEntities db = new shopDienThoaiEntities();
             SanPham sanPham = db.SanPham.Where(row => row.maSanPham == maSanPham).FirstOrDefault();
             return View(sanPham);
@@ -126,6 +164,13 @@ namespace WebThuongMaiDienTu.Controllers
         [HttpPost]
         public ActionResult Delete(int maSanPham, SanPham sp)
         {
+            // Kiểm tra quyền admin
+            var taiKhoan = (TaiKhoan)Session["TaiKhoan"];
+            if (taiKhoan == null || taiKhoan.taiKhoanAdmin != true)
+            {
+                // Nếu không có quyền admin, chuyển hướng về trang đăng nhập
+                return RedirectToAction("DangNhap", "TaiKhoan");
+            }
             shopDienThoaiEntities db = new shopDienThoaiEntities();
             SanPham sanpham = db.SanPham.Where(row => row.maSanPham == maSanPham).FirstOrDefault();
             sanpham.kichHoat = false;

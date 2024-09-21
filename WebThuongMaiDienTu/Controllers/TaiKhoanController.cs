@@ -53,6 +53,14 @@ namespace WebThuongMaiDienTu.Controllers
                         db.KhachHang.Add(khachHang);
                         db.SaveChanges();
 
+                        // Giỏ Hàng
+                        var gioHang = new GioHang
+                        {
+                            maKhachHang = khachHang.maKhachHang,
+                        };
+                        db.GioHang.Add(gioHang);
+                        db.SaveChanges();
+
                         // Lưu thông tin tài khoản
                         var taiKhoan = new TaiKhoan
                         {
@@ -106,6 +114,8 @@ namespace WebThuongMaiDienTu.Controllers
 
                 // Đăng nhập thành công
                 FormsAuthentication.SetAuthCookie(taiKhoan.tenTaiKhoan, false);
+                // Thêm thông tin tài khoản vào Session
+                Session["TaiKhoan"] = taiKhoan; // Lưu đối tượng `TaiKhoan` vào session
 
                 // Chuyển hướng về trang yêu cầu hoặc trang mặc định
                 if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
@@ -117,6 +127,11 @@ namespace WebThuongMaiDienTu.Controllers
                     return RedirectToAction("Index", "Home");
                 }
             }
+        }
+        public ActionResult DangXuat()
+        {
+            Session.Clear(); // Xóa toàn bộ session
+            return RedirectToAction("DangNhap", "TaiKhoan");
         }
 
         private string HashPassword(string password)

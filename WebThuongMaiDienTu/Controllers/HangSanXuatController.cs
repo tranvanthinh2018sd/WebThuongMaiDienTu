@@ -14,6 +14,13 @@ namespace WebThuongMaiDienTu.Controllers
         // GET: HangSanXuat
         public ActionResult Index()
         {
+            // Kiểm tra quyền admin
+            var taiKhoan = (TaiKhoan)Session["TaiKhoan"];
+            if (taiKhoan == null || taiKhoan.taiKhoanAdmin != true)
+            {
+                // Nếu không có quyền admin, chuyển hướng về trang đăng nhập
+                return RedirectToAction("DangNhap", "TaiKhoan");
+            }
             shopDienThoaiEntities db = new shopDienThoaiEntities();
             List<HangSanXuat> hangSanxuat = db.HangSanXuat.Where(row => row.kichHoat== true).ToList();
             return View(hangSanxuat);        
@@ -21,12 +28,26 @@ namespace WebThuongMaiDienTu.Controllers
         //Create
         public ActionResult Create()
         {
+            // Kiểm tra quyền admin
+            var taiKhoan = (TaiKhoan)Session["TaiKhoan"];
+            if (taiKhoan == null || taiKhoan.taiKhoanAdmin != true)
+            {
+                // Nếu không có quyền admin, chuyển hướng về trang đăng nhập
+                return RedirectToAction("DangNhap", "TaiKhoan");
+            }
             return View();
         }
         [HttpPost]
         public ActionResult Create(HangSanXuat HangSanXuat)
-        {            
-                shopDienThoaiEntities db = new shopDienThoaiEntities();
+        {
+            // Kiểm tra quyền admin
+            var taiKhoan = (TaiKhoan)Session["TaiKhoan"];
+            if (taiKhoan == null || taiKhoan.taiKhoanAdmin != true)
+            {
+                // Nếu không có quyền admin, chuyển hướng về trang đăng nhập
+                return RedirectToAction("DangNhap", "TaiKhoan");
+            }
+            shopDienThoaiEntities db = new shopDienThoaiEntities();
                 HangSanXuat.kichHoat = true;
                 db.HangSanXuat.Add(HangSanXuat);
                 db.SaveChanges();
@@ -36,6 +57,13 @@ namespace WebThuongMaiDienTu.Controllers
         //Edit
         public ActionResult Edit(int maHang)
         {
+            // Kiểm tra quyền admin
+            var taiKhoan = (TaiKhoan)Session["TaiKhoan"];
+            if (taiKhoan == null || taiKhoan.taiKhoanAdmin != true)
+            {
+                // Nếu không có quyền admin, chuyển hướng về trang đăng nhập
+                return RedirectToAction("DangNhap", "TaiKhoan");
+            }
             shopDienThoaiEntities db = new shopDienThoaiEntities();
             HangSanXuat hangSanXuat = db.HangSanXuat.Where(row => row.maHang == maHang).FirstOrDefault();
             return View(hangSanXuat);
@@ -43,6 +71,13 @@ namespace WebThuongMaiDienTu.Controllers
         [HttpPost]
         public ActionResult Edit(HangSanXuat hang)
         {
+            // Kiểm tra quyền admin
+            var taiKhoan = (TaiKhoan)Session["TaiKhoan"];
+            if (taiKhoan == null || taiKhoan.taiKhoanAdmin != true)
+            {
+                // Nếu không có quyền admin, chuyển hướng về trang đăng nhập
+                return RedirectToAction("DangNhap", "TaiKhoan");
+            }
             if (ModelState.IsValid)
             {
                 shopDienThoaiEntities db = new shopDienThoaiEntities();
@@ -63,6 +98,13 @@ namespace WebThuongMaiDienTu.Controllers
         //Delete
         public ActionResult Delete(int maHang)
         {
+            // Kiểm tra quyền admin
+            var taiKhoan = (TaiKhoan)Session["TaiKhoan"];
+            if (taiKhoan == null || taiKhoan.taiKhoanAdmin != true)
+            {
+                // Nếu không có quyền admin, chuyển hướng về trang đăng nhập
+                return RedirectToAction("DangNhap", "TaiKhoan");
+            }
             shopDienThoaiEntities db = new shopDienThoaiEntities();
             HangSanXuat hangSanXuat = db.HangSanXuat.Where(row => row.maHang == maHang).FirstOrDefault();
             return View(hangSanXuat);
@@ -70,6 +112,13 @@ namespace WebThuongMaiDienTu.Controllers
         [HttpPost]
         public ActionResult Delete(int maHang, HangSanXuat hang)
         {
+            // Kiểm tra quyền admin
+            var taiKhoan = (TaiKhoan)Session["TaiKhoan"];
+            if (taiKhoan == null || taiKhoan.taiKhoanAdmin != true)
+            {
+                // Nếu không có quyền admin, chuyển hướng về trang đăng nhập
+                return RedirectToAction("DangNhap", "TaiKhoan");
+            }
             shopDienThoaiEntities db = new shopDienThoaiEntities();
             HangSanXuat hangSanXuat = db.HangSanXuat.Where(row => row.maHang == maHang).FirstOrDefault();
             hangSanXuat.kichHoat = false;

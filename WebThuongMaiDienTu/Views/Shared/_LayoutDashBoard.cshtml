@@ -37,11 +37,22 @@
 
 
     <div class="main-content">
-        <div class="header">            
+        <div class="header">
             <div class="profile-icons">
                 <i class="fas fa-bell"></i>
                 <i class="fas fa-envelope"></i>
-                <i class="fas fa-user"></i>
+            </div>
+            <!-- Thêm phần đăng nhập/đăng xuất -->
+            <div class="auth-section">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <p>Chào, @User.Identity.Name!</p>
+                    <a href="@Url.Action("DangXuat", "TaiKhoan")" class="btn btn-link">Đăng xuất</a>
+                }
+                else
+                {
+                    <a href="@Url.Action("DangNhap", "TaiKhoan")" class="btn btn-link">Đăng nhập</a>
+                }
             </div>
         </div>
         <div class="masterpage-container">

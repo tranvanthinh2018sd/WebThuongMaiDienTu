@@ -86,6 +86,7 @@
           <Property Name="email" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
           <Property Name="LastLoginDate" Type="datetime" />
+          <Property Name="taiKhoanAdmin" Type="bit" Nullable="false" />
         </EntityType>
         <Association Name="FK__ChiTietDo__maDon__693CA210">
           <End Role="DonHang" Type="Self.DonHang" Multiplicity="1" />
@@ -326,6 +327,7 @@
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="LastLoginDate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="KhachHang" Relationship="Self.FK__TaiKhoan__maKhac__3B75D760" FromRole="TaiKhoan" ToRole="KhachHang" />
+          <Property Name="taiKhoanAdmin" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="FK__ChiTietDo__maDon__693CA210">
           <End Role="DonHang" Type="Self.DonHang" Multiplicity="1" />
@@ -550,6 +552,7 @@
           <EntitySetMapping Name="TaiKhoans">
             <EntityTypeMapping TypeName="ShopDienThoaiModel.TaiKhoan">
               <MappingFragment StoreEntitySet="TaiKhoan">
+                <ScalarProperty Name="taiKhoanAdmin" ColumnName="taiKhoanAdmin" />
                 <ScalarProperty Name="maTaiKhoan" ColumnName="maTaiKhoan" />
                 <ScalarProperty Name="tenTaiKhoan" ColumnName="tenTaiKhoan" />
                 <ScalarProperty Name="kichHoat" ColumnName="kichHoat" />

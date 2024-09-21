@@ -22,6 +22,7 @@ namespace WebThuongMaiDienTu.Models
         public string email { get; set; }
         public System.DateTime CreatedDate { get; set; }
         public Nullable<System.DateTime> LastLoginDate { get; set; }
+        public bool taiKhoanAdmin { get; set; }
     
         public virtual KhachHang KhachHang { get; set; }
     }
