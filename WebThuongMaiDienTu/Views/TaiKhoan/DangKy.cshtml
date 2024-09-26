@@ -3,6 +3,11 @@
 @{
     Layout = null;
 }
+@using System.Configuration;
+@{
+    ViewBag.Title = "Log in";
+    string _googlesitekey = ConfigurationManager.AppSettings["GoogleSitekey"];
+}
 
 <!DOCTYPE html>
 
@@ -51,6 +56,7 @@
                         <label for="soDienThoai" class="form-label">Số điện thoại</label>
                         <input type="tel" class="form-control" id="soDienThoai" name="soDienThoai" required>
                     </div>
+                    <div class="g-recaptcha" style="margin-left: 0px;" data-sitekey="@_googlesitekey"></div>
 
                     <button type="submit" class="btn btn-primary w-100">Đăng ký</button>
                 }
@@ -58,6 +64,13 @@
             </div>
         </div>
     </div>
+
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+
+
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -104,53 +117,53 @@
 
 <!-- JavaScript Validation -->
 <script>
-        document.getElementById('registrationForm').addEventListener('submit', function(event) {
-            var isValid = true;
+    document.getElementById('registrationForm').addEventListener('submit', function (event) {
+        var isValid = true;
 
-            // Validate Ten Tai Khoan
-            var tenTaiKhoan = document.getElementById('tenTaiKhoan');
-            if (tenTaiKhoan.value.trim() === '') {
-                isValid = false;
-                tenTaiKhoan.classList.add('is-invalid');
-            } else {
-                tenTaiKhoan.classList.remove('is-invalid');
-            }
-
-            // Validate Mat Khau
-            var matKhau = document.getElementById('matKhau');
-            if (matKhau.value.trim() === '') {
-                isValid = false;
-                matKhau.classList.add('is-invalid');
-            } else {
-                matKhau.classList.remove('is-invalid');
-            }
-
-            // Validate Email
-            var email = document.getElementById('email');
-            if (email.value.trim() === '' || !validateEmail(email.value)) {
-                isValid = false;
-                email.classList.add('is-invalid');
-            } else {
-                email.classList.remove('is-invalid');
-            }
-
-            // Validate So Dien Thoai
-            var soDienThoai = document.getElementById('soDienThoai');
-            if (!soDienThoai.checkValidity()) {
-                isValid = false;
-                soDienThoai.classList.add('is-invalid');
-            } else {
-                soDienThoai.classList.remove('is-invalid');
-            }
-
-            if (!isValid) {
-                event.preventDefault();
-            }
-        });
-
-        function validateEmail(email) {
-            var re = /^[a-zA-Z0-9._%+-]+[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-            return re.test(email);
+        // Validate Ten Tai Khoan
+        var tenTaiKhoan = document.getElementById('tenTaiKhoan');
+        if (tenTaiKhoan.value.trim() === '') {
+            isValid = false;
+            tenTaiKhoan.classList.add('is-invalid');
+        } else {
+            tenTaiKhoan.classList.remove('is-invalid');
         }
+
+        // Validate Mat Khau
+        var matKhau = document.getElementById('matKhau');
+        if (matKhau.value.trim() === '') {
+            isValid = false;
+            matKhau.classList.add('is-invalid');
+        } else {
+            matKhau.classList.remove('is-invalid');
+        }
+
+        // Validate Email
+        var email = document.getElementById('email');
+        if (email.value.trim() === '' || !validateEmail(email.value)) {
+            isValid = false;
+            email.classList.add('is-invalid');
+        } else {
+            email.classList.remove('is-invalid');
+        }
+
+        // Validate So Dien Thoai
+        var soDienThoai = document.getElementById('soDienThoai');
+        if (!soDienThoai.checkValidity()) {
+            isValid = false;
+            soDienThoai.classList.add('is-invalid');
+        } else {
+            soDienThoai.classList.remove('is-invalid');
+        }
+
+        if (!isValid) {
+            event.preventDefault();
+        }
+    });
+
+    function validateEmail(email) {
+        var re = /^[a-zA-Z0-9._%+-]+[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        return re.test(email);
+    }
 
 </script>
