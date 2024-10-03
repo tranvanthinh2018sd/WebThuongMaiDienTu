@@ -1,6 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
+using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web;
@@ -15,7 +18,9 @@ namespace WebThuongMaiDienTu.Controllers
         // GET: TaiKhoan
         public ActionResult Index()
         {
-            return View();
+            shopDienThoaiEntities db = new shopDienThoaiEntities();
+            List<TaiKhoan> taiKhoans = db.TaiKhoan.ToList();
+            return View(taiKhoans);
         }
         // GET: TaiKhoan/DangKy
         public ActionResult DangKy()
@@ -43,37 +48,38 @@ namespace WebThuongMaiDienTu.Controllers
                             return Content("<script type='text/javascript'>" + script + "</script>");
                         }
 
-                        // Lưu thông tin khách hàng
-                        var khachHang = new KhachHang
-                        {
-                            hoTen = model.HoTen,
-                            diaChiGiaoHang = model.DiaChiGiaoHang,
-                            soDienThoai = model.SoDienThoai,
-                            kichHoat = true
-                        };
-                        db.KhachHang.Add(khachHang);
-                        db.SaveChanges();
+                                // Lưu thông tin khách hàng
+                                var khachHang = new KhachHang
+                                {
+                                    hoTen = model.HoTen,
+                                    diaChiGiaoHang = model.DiaChiGiaoHang,
+                                    soDienThoai = model.SoDienThoai,
+                                    kichHoat = true
+                                };
+                                db.KhachHang.Add(khachHang);
+                                db.SaveChanges();
 
-                        // Giỏ Hàng
-                        var gioHang = new GioHang
-                        {
-                            maKhachHang = khachHang.maKhachHang,
-                        };
-                        db.GioHang.Add(gioHang);
-                        db.SaveChanges();
+                                // Giỏ Hàng
+                                var gioHang = new GioHang
+                                {
+                                    maKhachHang = khachHang.maKhachHang,
+                                    ngayTao = DateTime.Now,
+                                };
+                                db.GioHang.Add(gioHang);
+                                db.SaveChanges();
 
-                        // Lưu thông tin tài khoản
-                        var taiKhoan = new TaiKhoan
-                        {
-                            tenTaiKhoan = model.TenTaiKhoan,
-                            matKhau = HashPassword(model.MatKhau),
-                            email = model.Email,
-                            maKhachHang = khachHang.maKhachHang,
-                            kichHoat = true,
-                            CreatedDate = DateTime.Now
-                        };
-                        db.TaiKhoan.Add(taiKhoan);
-                        db.SaveChanges();
+                                // Lưu thông tin tài khoản
+                                var taiKhoan = new TaiKhoan
+                                {
+                                    tenTaiKhoan = model.TenTaiKhoan,
+                                    matKhau = HashPassword(model.MatKhau),
+                                    email = model.Email,
+                                    maKhachHang = khachHang.maKhachHang,
+                                    kichHoat = true,
+                                    CreatedDate = DateTime.Now
+                                };
+                                db.TaiKhoan.Add(taiKhoan);
+                                db.SaveChanges();
 
                         // Commit transaction sau khi thành công
                         transaction.Commit();
@@ -82,15 +88,13 @@ namespace WebThuongMaiDienTu.Controllers
                     {
                         // Rollback nếu có lỗi
                         transaction.Rollback();
-                        /* ModelState.AddModelError("", "Đã xảy ra lỗi khi đăng ký. Vui lòng thử lại.");
-                         return View(model);*/
-                        string script = "alert('Đã xảy ra lỗi khi đăng ký tài khoản!');history.back();";
-                        return Content("<script type='text/javascript'>" + script + "</script>");
+                        ModelState.AddModelError("", "Đã xảy ra lỗi khi đăng ký. Vui lòng thử lại.");
+                        return View(model);
                     }
                 }
             }
 
-            return RedirectToAction("DangNhap","TaiKhoan");
+            return RedirectToAction("Index");
         }
 
 
