@@ -102,7 +102,7 @@ namespace WebThuongMaiDienTu.Controllers
                         }
                     }
 
-                    return RedirectToAction("Index");
+                    return RedirectToAction("DangNhap", "TaiKhoan");
                 }
                 else
                 {

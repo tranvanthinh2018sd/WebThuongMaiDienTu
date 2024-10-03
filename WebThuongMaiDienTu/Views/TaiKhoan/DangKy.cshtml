@@ -23,19 +23,25 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-6">
-                @using (Html.BeginForm("DangKy", "TaiKhoan", FormMethod.Post))
+                @using (Html.BeginForm("DangKy", "TaiKhoan", FormMethod.Post, new { id = "registrationForm" }))
                 {
                     @Html.AntiForgeryToken() <!-- Thêm dòng này để tạo token anti-forgery -->
                     <!-- Các trường nhập liệu của bạn -->
-                    <div class="mb-3">
-                        <label for="tenTaiKhoan" class="form-label">Tên tài khoản</label>
-                        <input type="text" class="form-control" id="tenTaiKhoan" name="tenTaiKhoan" required>
+                <div class="mb-3">
+                    <label for="tenTaiKhoan" class="form-label">Tên tài khoản</label>
+                    <input type="text" class="form-control" id="tenTaiKhoan" name="tenTaiKhoan" required>
+                    <div class="invalid-feedback">
+                        Vui lòng nhập tên tài khoản (6-20 ký tự, không ký tự đặc biệt ngoài dấu chấm và gạch dưới).
                     </div>
+                </div>
 
-                    <div class="mb-3">
-                        <label for="matKhau" class="form-label">Mật khẩu</label>
-                        <input type="password" class="form-control" id="matKhau" name="matKhau" required>
+                <div class="mb-3">
+                    <label for="matKhau" class="form-label">Mật khẩu</label>
+                    <input type="password" class="form-control" id="matKhau" name="matKhau" required>
+                    <div class="invalid-feedback">
+                        Mật khẩu phải có ít nhất 8 ký tự, chứa ít nhất 1 chữ hoa, 1 chữ thường, 1 số và 1 ký tự đặc biệt.
                     </div>
+                </div>
 
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
@@ -45,16 +51,25 @@
                     <div class="mb-3">
                         <label for="hoTen" class="form-label">Họ và tên</label>
                         <input type="text" class="form-control" id="hoTen" name="hoTen" required>
+                        <div class="invalid-feedback">
+                            Vui lòng nhập họ và tên hợp lệ (chỉ chứa chữ cái và khoảng trắng).
+                        </div>
                     </div>
 
                     <div class="mb-3">
                         <label for="diaChiGiaoHang" class="form-label">Địa chỉ giao hàng</label>
                         <input type="text" class="form-control" id="diaChiGiaoHang" name="diaChiGiaoHang" required>
+                        <div class="invalid-feedback">
+                            Địa chỉ giao hàng phải từ 10 đến 100 ký tự.
+                        </div>
                     </div>
 
                     <div class="mb-3">
                         <label for="soDienThoai" class="form-label">Số điện thoại</label>
                         <input type="tel" class="form-control" id="soDienThoai" name="soDienThoai" required>
+                        <div class="invalid-feedback">
+                            Vui lòng nhập số điện thoại hợp lệ (bắt đầu bằng 03, 05, 07, 08 hoặc 09, và có 10 chữ số).
+                        </div>
                     </div>
                     <div class="g-recaptcha" style="margin-left: 0px;" data-sitekey="@_googlesitekey"></div>
 
@@ -117,53 +132,76 @@
 
 <!-- JavaScript Validation -->
 <script>
-    document.getElementById('registrationForm').addEventListener('submit', function (event) {
-        var isValid = true;
-
-        // Validate Ten Tai Khoan
-        var tenTaiKhoan = document.getElementById('tenTaiKhoan');
-        if (tenTaiKhoan.value.trim() === '') {
-            isValid = false;
-            tenTaiKhoan.classList.add('is-invalid');
-        } else {
-            tenTaiKhoan.classList.remove('is-invalid');
-        }
-
-        // Validate Mat Khau
-        var matKhau = document.getElementById('matKhau');
-        if (matKhau.value.trim() === '') {
-            isValid = false;
-            matKhau.classList.add('is-invalid');
-        } else {
-            matKhau.classList.remove('is-invalid');
-        }
-
-        // Validate Email
-        var email = document.getElementById('email');
-        if (email.value.trim() === '' || !validateEmail(email.value)) {
-            isValid = false;
-            email.classList.add('is-invalid');
-        } else {
-            email.classList.remove('is-invalid');
-        }
-
-        // Validate So Dien Thoai
-        var soDienThoai = document.getElementById('soDienThoai');
-        if (!soDienThoai.checkValidity()) {
-            isValid = false;
-            soDienThoai.classList.add('is-invalid');
-        } else {
-            soDienThoai.classList.remove('is-invalid');
-        }
-
-        if (!isValid) {
-            event.preventDefault();
-        }
-    });
+    
 
     function validateEmail(email) {
         var re = /^[a-zA-Z0-9._%+-]+[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         return re.test(email);
     }
 
+
+
+    document.getElementById('registrationForm').addEventListener('submit', function (event) {
+        var isValid = true;
+
+        // Validate Ten Tai Khoan (username)
+        var tenTaiKhoan = document.getElementById('tenTaiKhoan');
+        var usernamePattern = /^[a-zA-Z0-9_.]{6,20}$/;
+        if (tenTaiKhoan.value.trim() === '' || !usernamePattern.test(tenTaiKhoan.value)) {
+            isValid = false;
+            tenTaiKhoan.classList.add('is-invalid');
+        } else {
+            tenTaiKhoan.classList.remove('is-invalid');
+        }
+
+        //// Validate Mat Khau (password)
+        //var matKhau = document.getElementById('matKhau');
+        //var passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$!%*?&#])[A-Za-z\d$!%*?&#]{8,}$/;
+        //if (matKhau.value.trim() === '' || !passwordPattern.test(matKhau.value)) {
+        //    isValid = false;
+        //    matKhau.classList.add('is-invalid');
+        //} else {
+        //    matKhau.classList.remove('is-invalid');
+        //}
+
+
+        // Validate Ho Ten (full name)
+        var hoTen = document.getElementById('hoTen');
+        var namePattern = /^[a-zA-ZÀ-ỹ\s]{2,50}$/;
+        if (hoTen.value.trim() === '' || !namePattern.test(hoTen.value)) {
+            isValid = false;
+            hoTen.classList.add('is-invalid');
+        } else {
+            hoTen.classList.remove('is-invalid');
+        }
+
+        // Validate Dia Chi (address)
+        var diaChiGiaoHang = document.getElementById('diaChiGiaoHang');
+        if (diaChiGiaoHang.value.trim() === '' || diaChiGiaoHang.value.length < 10 || diaChiGiaoHang.value.length > 100) {
+            isValid = false;
+            diaChiGiaoHang.classList.add('is-invalid');
+        } else {
+            diaChiGiaoHang.classList.remove('is-invalid');
+        }
+
+        // Validate So Dien Thoai (phone number)
+        var soDienThoai = document.getElementById('soDienThoai');
+        var phonePattern = /^(03|05|07|08|09)\d{8}$/;
+        if (!phonePattern.test(soDienThoai.value)) {
+            isValid = false;
+            soDienThoai.classList.add('is-invalid');
+        } else {
+            soDienThoai.classList.remove('is-invalid');
+        }
+
+        // Ngăn form gửi đi nếu có lỗi
+        if (!isValid) {
+            event.preventDefault();
+        }
+    });
+
+
+
+
 </script>
+

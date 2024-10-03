@@ -30,7 +30,11 @@
                     <td>@items.soLuong</td>
                     <td>@items.donGia</td>
                     <td class="actions">
-                        <a href="@Url.Action("Edit", "ChiTietDonHang", new { maChiTietGioHang = items.maChiTietGioHang })"><button class="btn btn-edit" title="Chỉnh sửa"><i class="fas fa-edit"></i></button></a>
+                        <a href="@Url.Action("Edit", "ChiTietGioHang", new { maChiTietGioHang = items.maChiTietGioHang })">
+                            <button class="btn btn-edit" title="Chỉnh sửa">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                        </a>
                     </td>
                 </tr>
             }
