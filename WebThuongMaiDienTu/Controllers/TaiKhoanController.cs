@@ -10,6 +10,8 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using WebThuongMaiDienTu.Models;
+using System.Data.Entity; // Thêm dòng này nếu chưa có
+
 
 namespace WebThuongMaiDienTu.Controllers
 {
@@ -163,17 +165,21 @@ namespace WebThuongMaiDienTu.Controllers
                 // Thêm thông tin tài khoản vào Session
                 Session["TaiKhoan"] = taiKhoan; // Lưu đối tượng `TaiKhoan` vào session
 
-                // Chuyển hướng về trang yêu cầu hoặc trang mặc định
-                if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                // Lấy URL từ Session nếu có, ưu tiên over returnUrl trong form (nếu returnUrl truyền qua form thì dùng returnUrl)
+                string redirectUrl = Session["returnUrl"] as string;
+
+                if (!string.IsNullOrEmpty(redirectUrl) && Url.IsLocalUrl(redirectUrl))
                 {
-                    return Redirect(returnUrl);
+                    // Xóa returnUrl khỏi Session sau khi dùng
+                    Session["returnUrl"] = null;
+                    return Redirect(redirectUrl);
                 }
-                else
-                {
-                    return RedirectToAction("Index", "Home");
-                }
+
+                // Chuyển hướng về trang mặc định nếu không có URL được lưu
+                return RedirectToAction("Index", "Home");
             }
         }
+
         public ActionResult DangXuat()
         {
             Session.Clear(); // Xóa toàn bộ session
@@ -193,6 +199,95 @@ namespace WebThuongMaiDienTu.Controllers
                 return builder.ToString();
             }
         }
+
+
+
+        public ActionResult CapNhatTaiKhoan()
+        {
+            var sessionTaiKhoan = Session["TaiKhoan"] as TaiKhoan;
+            if (sessionTaiKhoan == null)
+            {
+                // Lưu URL hiện tại (CapNhatTaiKhoan) vào Session trước khi chuyển hướng đến trang đăng nhập
+                Session["returnUrl"] = Url.Action("CapNhatTaiKhoan", "TaiKhoan");
+                return RedirectToAction("DangNhap", "TaiKhoan");
+            }
+            // Lưu URL hiện tại (CapNhatTaiKhoan) vào Session trước khi chuyển hướng đến trang đăng nhập
+            Session["returnUrl"] = Url.Action("CapNhatTaiKhoan", "TaiKhoan");
+            using (var db = new shopDienThoaiEntities())
+            {
+                // Tải lại tài khoản từ cơ sở dữ liệu và eager load KhachHang
+                var taiKhoan = db.TaiKhoan
+                                 .Include(t => t.KhachHang)
+                                 .FirstOrDefault(t => t.maTaiKhoan == sessionTaiKhoan.maTaiKhoan);
+
+                if (taiKhoan == null)
+                {
+                    return RedirectToAction("DangNhap", "TaiKhoan");
+                }
+
+                // Tạo model để truyền sang View
+                var model = new CapNhatTaiKhoanViewModel
+                {
+                    TenTaiKhoan = taiKhoan.tenTaiKhoan,
+                    Email = taiKhoan.email,
+                    DiaChiGiaoHang = taiKhoan.KhachHang?.diaChiGiaoHang, // Kiểm tra nếu KhachHang != null
+                    SoDienThoai = taiKhoan.KhachHang?.soDienThoai
+                };
+
+                return View(model);
+            }
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CapNhatTaiKhoan(CapNhatTaiKhoanViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var taiKhoan = Session["TaiKhoan"] as TaiKhoan;
+            if (taiKhoan == null)
+            {                
+                return RedirectToAction("DangNhap", "TaiKhoan");
+            }
+
+            using (var db = new shopDienThoaiEntities())
+            {
+                var currentTaiKhoan = db.TaiKhoan.Find(taiKhoan.maTaiKhoan);
+
+                // Kiểm tra mật khẩu cũ
+                if (HashPassword(model.MatKhauCu) != currentTaiKhoan.matKhau)
+                {
+                    ModelState.AddModelError("", "Mật khẩu cũ không đúng.");
+                    return View(model);
+                }
+
+                // Cập nhật mật khẩu mới nếu có
+                if (!string.IsNullOrEmpty(model.MatKhauMoi))
+                {
+                    if (model.MatKhauMoi != model.XacNhanMatKhau)
+                    {
+                        ModelState.AddModelError("", "Xác nhận mật khẩu không khớp.");
+                        return View(model);
+                    }
+                    currentTaiKhoan.matKhau = HashPassword(model.MatKhauMoi);
+                }
+
+                // Cập nhật thông tin khác
+                currentTaiKhoan.email = model.Email;
+                currentTaiKhoan.KhachHang.diaChiGiaoHang = model.DiaChiGiaoHang;
+                currentTaiKhoan.KhachHang.soDienThoai = model.SoDienThoai;
+
+                db.SaveChanges();
+            }
+
+            ViewBag.ThongBao = "Cập nhật thành công!";
+            return View(model);
+        }
+
 
     }
 }

@@ -1,0 +1,51 @@
+﻿@model List<WebThuongMaiDienTu.Models.ChiTietDonHang>
+
+@{
+    ViewBag.Title = "IndexKhachHang";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+
+
+<table cellspacing="0" class="shop_table cart">
+    <thead>
+        <tr>
+            <th class="product-thumbnail">Mã sản phẩm</th>
+            <th class="product-name">Tên sản phẩm</th>
+            <th class="product-price">Đơn giá</th>
+            <th class="product-quantity">Số lượng</th>
+            <th class="product-subtotal">Tổng cộng</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr class="cart_item">
+                <td class="product-thumbnail">
+                    <!-- Hiển thị mã sản phẩm -->
+                    <span>@item.maSanPham</span>
+                </td>
+
+                <td class="product-name">
+                    <!-- Giả sử có tên sản phẩm được lấy từ liên kết với bảng sản phẩm -->
+                    <a href="#">@item.SanPham.tenSanPham</a>
+                </td>
+
+                <td class="product-price">
+                    <!-- Định dạng đơn giá thành tiền tệ -->
+                    <span class="amount">@item.donGia.ToString("C")</span>
+                </td>
+
+                <td class="product-quantity">
+                    <!-- Hiển thị số lượng sản phẩm -->
+                    <span>@item.soLuong</span>
+                </td>
+
+                <td class="product-subtotal">
+                    <!-- Tính tổng cộng cho sản phẩm (đơn giá * số lượng) -->
+                    <span class="amount">@((item.donGia * item.soLuong).ToString("C"))</span>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

@@ -266,6 +266,7 @@
     <Compile Include="BundleConfig.cs" />
     <Compile Include="Controllers\ShopController.cs" />
     <Compile Include="FilterConfig.cs" />
+    <Compile Include="Models\CapNhatTaiKhoanViewModel.cs" />
     <Compile Include="Models\CaptchaResponse.cs" />
     <Compile Include="Models\SanPhamThongKeViewModel.cs" />
     <Compile Include="Startup.cs" />
@@ -365,6 +366,9 @@
     <Content Include="Views\Shop\Index.cshtml" />
     <Content Include="Views\Shared\_LayoutDetails.cshtml" />
     <Content Include="Views\Shop\Details.cshtml" />
+    <Content Include="Views\ChiTietGioHang\IndexKhachHang.cshtml" />
+    <Content Include="Views\ChiTietDonHang\IndexKhachHang.cshtml" />
+    <Content Include="Views\TaiKhoan\CapNhatTaiKhoan.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

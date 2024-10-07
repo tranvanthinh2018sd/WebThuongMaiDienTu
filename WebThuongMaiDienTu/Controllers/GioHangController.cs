@@ -16,6 +16,8 @@ namespace WebThuongMaiDienTu.Controllers
             var taiKhoan = (TaiKhoan)Session["TaiKhoan"];
             if (taiKhoan == null || taiKhoan.taiKhoanAdmin != true)
             {
+                // Lưu URL hiện tại (IndexKhachHang) vào Session trước khi chuyển hướng đến trang đăng nhập
+                Session["returnUrl"] = Url.Action("Index", "GioHang");
                 // Nếu không có quyền admin, chuyển hướng về trang đăng nhập
                 return RedirectToAction("DangNhap", "TaiKhoan");
             }
@@ -23,7 +25,6 @@ namespace WebThuongMaiDienTu.Controllers
             List<GioHang> gioHangs = db.GioHang.OrderByDescending(row => row.maGioHang).ToList();
             return View(gioHangs);
         }
-
         //Edit
         public ActionResult Edit(int maGioHang)
         {
@@ -31,6 +32,8 @@ namespace WebThuongMaiDienTu.Controllers
             var taiKhoan = (TaiKhoan)Session["TaiKhoan"];
             if (taiKhoan == null || taiKhoan.taiKhoanAdmin != true)
             {
+                // Lưu URL hiện tại (IndexKhachHang) vào Session trước khi chuyển hướng đến trang đăng nhập
+                Session["returnUrl"] = Url.Action("Edit", "GioHang");
                 // Nếu không có quyền admin, chuyển hướng về trang đăng nhập
                 return RedirectToAction("DangNhap", "TaiKhoan");
             }

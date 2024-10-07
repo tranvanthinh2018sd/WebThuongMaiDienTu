@@ -16,6 +16,8 @@ namespace WebThuongMaiDienTu.Controllers
             var taiKhoan = (TaiKhoan)Session["TaiKhoan"];
             if (taiKhoan == null || taiKhoan.taiKhoanAdmin != true)
             {
+                // Lưu URL hiện tại (IndexKhachHang) vào Session trước khi chuyển hướng đến trang đăng nhập
+                Session["returnUrl"] = Url.Action("Index", "ChiTietDonHang");
                 // Nếu không có quyền admin, chuyển hướng về trang đăng nhập
                 return RedirectToAction("DangNhap", "TaiKhoan");
             }
@@ -23,7 +25,22 @@ namespace WebThuongMaiDienTu.Controllers
             List<ChiTietDonHang> chiTietDonHangs = db.ChiTietDonHang.OrderByDescending(row => row.maChiTietDonHang).ToList();
             return View(chiTietDonHangs);
         }
-
+        // GET: ChiTietDonHang
+        public ActionResult IndexKhachHang()
+        {
+            // Kiểm tra quyền admin
+            var taiKhoan = (TaiKhoan)Session["TaiKhoan"];
+            if (taiKhoan == null || taiKhoan.taiKhoanAdmin != false)
+            {
+                // Lưu URL hiện tại (IndexKhachHang) vào Session trước khi chuyển hướng đến trang đăng nhập
+                Session["returnUrl"] = Url.Action("IndexKhachHang", "ChiTietDonHang");
+                // Nếu không có quyền admin, chuyển hướng về trang đăng nhập
+                return RedirectToAction("DangNhap", "TaiKhoan");
+            }
+            shopDienThoaiEntities db = new shopDienThoaiEntities();
+            List<ChiTietDonHang> chiTietDonHangs = db.ChiTietDonHang.OrderByDescending(row => row.maChiTietDonHang).ToList();
+            return View(chiTietDonHangs);
+        }
         //Edit
         public ActionResult Edit(int maChiTietDonHang)
         {
@@ -31,6 +48,8 @@ namespace WebThuongMaiDienTu.Controllers
             var taiKhoan = (TaiKhoan)Session["TaiKhoan"];
             if (taiKhoan == null || taiKhoan.taiKhoanAdmin != true)
             {
+                // Lưu URL hiện tại (IndexKhachHang) vào Session trước khi chuyển hướng đến trang đăng nhập
+                Session["returnUrl"] = Url.Action("Edit", "ChiTietDonHang");
                 // Nếu không có quyền admin, chuyển hướng về trang đăng nhập
                 return RedirectToAction("DangNhap", "TaiKhoan");
             }

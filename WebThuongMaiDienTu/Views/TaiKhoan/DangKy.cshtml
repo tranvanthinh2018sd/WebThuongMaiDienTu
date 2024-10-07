@@ -2,6 +2,7 @@
 
 @{
     Layout = null;
+    string y = "@cc$!%*?&";
 }
 @using System.Configuration;
 @{
@@ -37,7 +38,8 @@
 
                 <div class="mb-3">
                     <label for="matKhau" class="form-label">Mật khẩu</label>
-                    <input type="password" class="form-control" id="matKhau" name="matKhau" required>
+                    <input type="password" class="form-control" id="matKhau" name="matKhau" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@y])[A-Za-z\d@cc$!%*?&]{8,}$"
+                           title="Mật khẩu phải có ít nhất 8 ký tự, chứa ít nhất 1 chữ hoa, 1 chữ thường, 1 số và 1 ký tự đặc biệt." required>
                     <div class="invalid-feedback">
                         Mật khẩu phải có ít nhất 8 ký tự, chứa ít nhất 1 chữ hoa, 1 chữ thường, 1 số và 1 ký tự đặc biệt.
                     </div>
@@ -132,7 +134,7 @@
 
 <!-- JavaScript Validation -->
 <script>
-    
+
 
     function validateEmail(email) {
         var re = /^[a-zA-Z0-9._%+-]+[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -154,17 +156,7 @@
             tenTaiKhoan.classList.remove('is-invalid');
         }
 
-        //// Validate Mat Khau (password)
-        //var matKhau = document.getElementById('matKhau');
-        //var passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$!%*?&#])[A-Za-z\d$!%*?&#]{8,}$/;
-        //if (matKhau.value.trim() === '' || !passwordPattern.test(matKhau.value)) {
-        //    isValid = false;
-        //    matKhau.classList.add('is-invalid');
-        //} else {
-        //    matKhau.classList.remove('is-invalid');
-        //}
-
-
+        
         // Validate Ho Ten (full name)
         var hoTen = document.getElementById('hoTen');
         var namePattern = /^[a-zA-ZÀ-ỹ\s]{2,50}$/;

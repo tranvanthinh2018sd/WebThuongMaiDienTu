@@ -1,0 +1,61 @@
+﻿@model List<WebThuongMaiDienTu.Models.ChiTietGioHang>
+
+@{
+    ViewBag.Title = "Giỏ hàng của khách hàng";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+
+<table cellspacing="0" class="shop_table cart">
+    <thead>
+        <tr>
+            <th class="product-remove">&nbsp;</th>
+            <th class="product-thumbnail">&nbsp;</th>
+            <th class="product-name">Sản phẩm</th>
+            <th class="product-price">Giá</th>
+            <th class="product-quantity">Số lượng</th>
+            <th class="product-subtotal">Tổng cộng</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr class="cart_item">
+                <td class="product-remove">
+                    <a title="Xóa sản phẩm này" class="remove" href="#">×</a>
+                </td>
+
+                <td class="product-name">
+                    <!-- Hiển thị tên sản phẩm -->
+                    <a href="#">@item.SanPham.tenSanPham</a> <!-- Assuming that you have a link between ChiTietGioHang and SanPham -->
+                </td>
+
+                <td class="product-price">
+                    <!-- Hiển thị đơn giá sản phẩm và định dạng tiền tệ -->
+                    <span class="amount">@item.donGia.ToString("C")</span>
+                </td>
+
+                <td class="product-quantity">
+                    <div class="quantity buttons_added">
+                        <input type="button" class="minus" value="-">
+                        <input type="number" size="4" class="input-text qty text" title="Qty" value="@item.soLuong" min="0" step="1">
+                        <input type="button" class="plus" value="+">
+                    </div>
+                </td>
+
+                <td class="product-subtotal">
+                    <!-- Hiển thị tổng cộng = đơn giá * số lượng -->
+                    <span class="amount">@((item.donGia * item.soLuong).ToString("C"))</span>
+                </td>
+            </tr>
+        }
+
+        <tr>
+            <td class="actions" colspan="6">
+                <!-- Nút xác nhận đặt hàng (Checkout) -->
+                <form method="post" action="@Url.Action("Checkout", "DonHang")">
+                    <button type="submit">Xác nhận đặt hàng</button>
+                </form>
+            </td>
+        </tr>
+    </tbody>
+</table>

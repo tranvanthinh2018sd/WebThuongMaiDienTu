@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@using WebThuongMaiDienTu.Models
+@{
+    var taiKhoan = (TaiKhoan)Session["TaiKhoan"];
+}
+
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -18,6 +23,7 @@
     <link rel="stylesheet" href="~/Assets/css/owl.carousel.css">
     <link rel="stylesheet" href="~/Assets/css/style.css">
     <link rel="stylesheet" href="~/Assets/css/responsive.css">
+
 </head>
 <body>
     <div class="header-area">
@@ -25,13 +31,27 @@
             <div class="row">
                 <div class="col-md-8">
                     <div class="user-menu">
-                        <ul>
-                            <li><a href="#"><i class="fa fa-user"></i> My Account</a></li>
+
+                        @*  <li><a href="#"><i class="fa fa-user"></i> My Account</a></li>
                             <li><a href="#"><i class="fa fa-heart"></i> Wishlist</a></li>
-                            <li><a href="cart.html"><i class="fa fa-user"></i> My Cart</a></li>
-                            <li><a href="checkout.html"><i class="fa fa-user"></i> Checkout</a></li>
-                            <li><a href="#"><i class="fa fa-user"></i> Login</a></li>
-                        </ul>
+                            <li><a href=""><i class="fa fa-user"></i> My Cart</a></li>
+                            <li><a href=""><i class="fa fa-user"></i> Checkout</a></li>*@
+
+                        @if (taiKhoan == null)
+                        {
+
+
+                            <a href="~/TaiKhoan/DangNhap"><i class="fa fa-user"></i> Đăng nhập</a>
+                        }
+                        else
+                        {
+                            <div>
+                                <span style="color:red;">@taiKhoan.tenTaiKhoan</span> <a href="@Url.Action("CapNhatTaiKhoan", "TaiKhoan")" style="color:black;text-decoration-color:red">Đổi mật khẩu</a>
+                            </div>
+
+
+                        }
+
                     </div>
                 </div>
             </div>
@@ -49,8 +69,11 @@
 
                     <div class="col-sm-6">
                         <div class="shopping-item">
-                            <a href="cart.html">Cart - <span class="cart-amunt">$100</span> <i class="fa fa-shopping-cart"></i> <span class="product-count">5</span></a>
+                            <a href="@Url.Action("IndexKhachHang", "ChiTietGioHang")" class="view-details-link">
+                                Giỏ hàng - <i class="fa fa-shopping-cart"></i>
+                            </a>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -69,14 +92,11 @@
                     </div>
                     <div class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
-                            <li class="active"><a href="index.html">Home</a></li>
-                            <li><a href="shop.html">Shop page</a></li>
-                            <li><a href="single-product.html">Single product</a></li>
-                            <li><a href="cart.html">Cart</a></li>
-                            <li><a href="checkout.html">Checkout</a></li>
-                            <li><a href="#">Category</a></li>
-                            <li><a href="#">Others</a></li>
-                            <li><a href="#">Contact</a></li>
+                            <li class="active"><a href="~/Shop/">Trang chủ</a></li>
+
+                            <li><a href="">Giỏ hàng</a></li>
+
+                            <li><a href="#">Liên hệ</a></li>
                         </ul>
                     </div>
                 </div>
@@ -135,6 +155,27 @@
     <div>
         @RenderBody()
     </div>
+    <div class="brands-area">
+        <div class="zigzag-bottom"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="brand-wrapper">
+                        <div class="brand-list">
+                            <img src="~/Assets/img/brand1.png" alt="">
+                            <img src="~/Assets/img/brand2.png" alt="">
+                            <img src="~/Assets/img/brand3.png" alt="">
+                            <img src="~/Assets/img/brand4.png" alt="">
+                            <img src="~/Assets/img/brand5.png" alt="">
+                            <img src="~/Assets/img/brand6.png" alt="">
+                            <img src="~/Assets/img/brand1.png" alt="">
+                            <img src="~/Assets/img/brand2.png" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- End brands area -->
     <div class="footer-top-area">
         <div class="zigzag-bottom"></div>
         <div class="container">
@@ -156,29 +197,29 @@
                     <div class="footer-menu">
                         <h2 class="footer-wid-title">User Navigation </h2>
                         <ul>
-                            <li><a href="#">My account</a></li>
-                            <li><a href="#">Order history</a></li>
-                            <li><a href="#">Wishlist</a></li>
-                            <li><a href="#">Vendor contact</a></li>
-                            <li><a href="#">Front page</a></li>
+                            <li class="active"><a href="~/Shop/">Trang chủ</a></li>
+
+                            <li><a href="">Giỏ hàng</a></li>
+
+                            <li><a href="#">Liên hệ</a></li>
                         </ul>
                     </div>
                 </div>
 
-                <div class="col-md-3 col-sm-6">
-                    <div class="footer-menu">
-                        <h2 class="footer-wid-title">Categories</h2>
-                        <ul>
-                            <li><a href="#">Mobile Phone</a></li>
-                            <li><a href="#">Home accesseries</a></li>
-                            <li><a href="#">LED TV</a></li>
-                            <li><a href="#">Computer</a></li>
-                            <li><a href="#">Gadets</a></li>
-                        </ul>
-                    </div>
-                </div>
+                @*  <div class="col-md-3 col-sm-6">
+                        <div class="footer-menu">
+                            <h2 class="footer-wid-title">Categories</h2>
+                            <ul>
+                                <li><a href="#">Mobile Phone</a></li>
+                                <li><a href="#">Home accesseries</a></li>
+                                <li><a href="#">LED TV</a></li>
+                                <li><a href="#">Computer</a></li>
+                                <li><a href="#">Gadets</a></li>
+                            </ul>
+                        </div>
+                    </div>*@
 
-                <div class="col-md-3 col-sm-6">
+                <@*div class="col-md-3 col-sm-6">
                     <div class="footer-newsletter">
                         <h2 class="footer-wid-title">Newsletter</h2>
                         <p>Sign up to our newsletter and get exclusive deals you wont find anywhere else straight to your inbox!</p>
@@ -189,7 +230,7 @@
                             </form>
                         </div>
                     </div>
-                </div>
+                </div>*@
             </div>
         </div>
     </div> <!-- End footer top area -->

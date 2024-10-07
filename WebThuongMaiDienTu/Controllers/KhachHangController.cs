@@ -16,6 +16,8 @@ namespace WebThuongMaiDienTu.Controllers
             var taiKhoan = (TaiKhoan)Session["TaiKhoan"];
             if (taiKhoan == null || taiKhoan.taiKhoanAdmin != true)
             {
+                // Lưu URL hiện tại (IndexKhachHang) vào Session trước khi chuyển hướng đến trang đăng nhập
+                Session["returnUrl"] = Url.Action("Index", "KhachHang");
                 // Nếu không có quyền admin, chuyển hướng về trang đăng nhập
                 return RedirectToAction("DangNhap", "TaiKhoan");
             }
@@ -35,6 +37,8 @@ namespace WebThuongMaiDienTu.Controllers
             var taiKhoan = (TaiKhoan)Session["TaiKhoan"];
             if (taiKhoan == null || taiKhoan.taiKhoanAdmin != true)
             {
+                // Lưu URL hiện tại (IndexKhachHang) vào Session trước khi chuyển hướng đến trang đăng nhập
+                Session["returnUrl"] = Url.Action("Edit", "KhachHang");
                 // Nếu không có quyền admin, chuyển hướng về trang đăng nhập
                 return RedirectToAction("DangNhap", "TaiKhoan");
             }
