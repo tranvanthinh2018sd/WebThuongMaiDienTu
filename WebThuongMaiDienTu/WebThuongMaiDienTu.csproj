@@ -254,10 +254,25 @@
     <Content Include="Scripts\umd\popper.min.js" />
     <Content Include="Uploads\avatar.jpg" />
     <Content Include="Uploads\iphone5.jpg" />
+    <Content Include="Uploads\Iphone54.jpg" />
     <Content Include="Uploads\Iphone5\iphone5.jpg" />
     <Content Include="Uploads\iphone6.jpg" />
+    <Content Include="Uploads\iphone81.jpg" />
     <Content Include="Uploads\logotienganh.jpg" />
+    <Content Include="Uploads\SamsungGalaxyS23FE5G8GB128GB.png" />
+    <Content Include="Uploads\SamsungGalaxyS23Ultra12GB512GB.png" />
+    <Content Include="Uploads\SamsungGalaxyS24Plus12GB512GB.png" />
+    <Content Include="Uploads\SamsungGalaxyZFlip612GB512GB.png" />
+    <Content Include="Uploads\SamsungGalaxyZFold612GB1TB.png" />
     <Content Include="Uploads\SanPham\Iphone 5\iphone5.jpg" />
+    <Content Include="Uploads\Xiaomi11T.png" />
+    <Content Include="Uploads\xiaomi13Tproxanhthumb.png" />
+    <Content Include="Uploads\xiaomi14greenthumbnew.png" />
+    <Content Include="Uploads\Xiaomi14TPro.png" />
+    <Content Include="Uploads\Xiaomi14Ultra5G16GB512GB.png" />
+    <Content Include="Uploads\XiaomiMi11Lite5G.png" />
+    <Content Include="Uploads\ĐiệnThoạiBàn.jpg" />
+    <Content Include="Uploads\ĐiệnThoạiSamSung.jpg" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>

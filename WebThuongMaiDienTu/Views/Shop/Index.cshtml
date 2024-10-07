@@ -5,44 +5,146 @@
 }
 
 <div class="maincontent-area">
-    <div class="zigzag-bottom"></div>
+    
     <div class="container">
         <div class="row">
             <div class="col-md-12">
                 <div class="latest-product">
                     <h2 class="section-title">Sản Phẩm mới</h2>
                     <div class="product-carousel">
-                        @foreach (var items in Model)
+                        @foreach (var items in Model.Take(5))
                         {
                             <div class="single-product">
                                 <div class="product-f-image">
                                     <img src="@items.hinhAnh" alt="" style="height:300px">
                                     <div class="product-hover">
-                                        <a href="@Url.Action("Details", "Shop", new { maSanPham = items.maSanPham })" class="view-details-link">
+                                        @*<a href="@Url.Action("AddToCart", "Shop", new { maSanPham = items.maSanPham })" class="add-to-cart-link">
+                                            <i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng
+                                        </a>*@
+                                        <a href="~/Shop/Details?maSanPham=@items.maSanPham" class="view-details-link">
                                             <i class="fa fa-link"></i> Xem chi Tiết
                                         </a>
                                     </div>
                                 </div>
 
-                                <h2><a href="#">@items.tenSanPham</a></h2>
-
-                                <form action="@Url.Action("AddToCart", "Shop", new { maSanPham = items.maSanPham })" method="post">
-                                    <!-- Input để chọn số lượng -->
-                                    <input type="hidden" name="soLuong" value="1" />
-                                    <!-- Nút thêm vào giỏ hàng -->
-                                    <button type="submit" class="btn btn-primary">
-                                        <i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng
-                                    </button>
-                                </form>
+                                <h2><a href="~/Shop/Details?maSanPham=@items.maSanPham">@items.tenSanPham</a></h2>
 
                                 <div class="product-carousel-price">
-                                    <ins>@items.giaKhuyenMai</ins> <del>@items.giaBan</del>
+                                    <ins>@(string.Format("{0:#,##0}đ", items.giaKhuyenMai))</ins> <del>@(string.Format("{0:#,##0}đ", items.giaBan))</del>
                                 </div>
                             </div>
                         }
+
+
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</div> <!-- End main content area -->
+        <br />
+        <br />
+
+        <div class="row" id="product-list">
+            <h2 class="section-title">Tất cả sản phẩm</h2>
+
+            @foreach (var items in Model)
+            {
+                <div class="col-md-3 col-sm-6 product-item">
+                    <div class="single-shop-product">
+                        <div class="product-upper">
+                            <img src="@items.hinhAnh" alt="">
+                        </div>
+                        <h2><a href="~/Shop/Details?maSanPham=@items.maSanPham">@items.tenSanPham</a></h2>
+                        <div class="product-carousel-price">
+                            <ins>@(string.Format("{0:#,##0}đ", items.giaKhuyenMai))</ins>
+                            <del>@(string.Format("{0:#,##0}đ", items.giaBan))</del>
+                        </div>
+                    </div>
+                </div>
+
+            }
+
+        </div>
+        <div class="pag"></div>
+
+    </div></div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Số sản phẩm mỗi trang
+        var itemsPerPage = 8;
+        var products = document.querySelectorAll("#product-list .product-item"); // Lấy tất cả sản phẩm
+        var totalItems = products.length; // Tổng số sản phẩm
+        var totalPages = Math.ceil(totalItems / itemsPerPage); // Tổng số trang
+
+        // Hiển thị sản phẩm dựa trên trang hiện tại
+        function showPage(pageNumber) {
+            var start = (pageNumber - 1) * itemsPerPage;
+            var end = start + itemsPerPage;
+
+            // Ẩn tất cả sản phẩm
+            products.forEach(function (product, index) {
+                product.style.display = (index >= start && index < end) ? "block" : "none";
+            });
+        }
+
+        // Tạo phân trang
+        function createPagination() {
+            var pagination = document.createElement("div");
+            pagination.classList.add("pagination");
+
+            // Tạo các nút phân trang
+            for (let i = 1; i <= totalPages; i++) {
+                let pageButton = document.createElement("button");
+                pageButton.textContent = i;
+                pageButton.classList.add("page-btn");
+                pageButton.addEventListener("click", function () {
+                    showPage(i);
+                    setActivePage(i);
+                });
+
+                pagination.appendChild(pageButton);
+            }
+
+            document.querySelector(".pag").appendChild(pagination);
+        }
+
+        // Đặt nút hiện tại là active
+        function setActivePage(activePage) {
+            document.querySelectorAll(".page-btn").forEach(function (btn, index) {
+                btn.classList.toggle("active", index + 1 === activePage);
+            });
+        }
+
+        // Khởi tạo trang đầu tiên và tạo nút phân trang
+        showPage(1);
+        createPagination();
+        setActivePage(1);
+    });
+
+</script>
+
+<style>
+    .pagination, .pag {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .page-btn {
+        padding: 8px 16px;
+        margin: 0 5px;
+        border: none;
+        background-color: #f1f1f1;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+        .page-btn.active {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .page-btn:hover {
+            background-color: #ddd;
+        }
+
+</style>

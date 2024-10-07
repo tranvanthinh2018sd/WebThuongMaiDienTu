@@ -154,6 +154,16 @@ namespace WebThuongMaiDienTu.Controllers
             {
                 var taiKhoan = db.TaiKhoan.SingleOrDefault(t => t.tenTaiKhoan == model.tenTaiKhoan);
 
+                if (taiKhoan != null)
+                {
+
+                    if (this.User.Identity.IsAuthenticated)
+                    {
+                        ModelState.AddModelError("", "Bạn đang đăng nhập. Vui lòng đăng xuất trước khi đăng nhập lại.");
+                        return View(model);
+                    }
+                }
+
                 if (taiKhoan == null || taiKhoan.matKhau != HashPassword(model.matKhau))
                 {
                     ModelState.AddModelError("", "Tên tài khoản hoặc mật khẩu không đúng.");
@@ -165,23 +175,21 @@ namespace WebThuongMaiDienTu.Controllers
                 // Thêm thông tin tài khoản vào Session
                 Session["TaiKhoan"] = taiKhoan; // Lưu đối tượng `TaiKhoan` vào session
 
-                // Lấy URL từ Session nếu có, ưu tiên over returnUrl trong form (nếu returnUrl truyền qua form thì dùng returnUrl)
-                string redirectUrl = Session["returnUrl"] as string;
-
-                if (!string.IsNullOrEmpty(redirectUrl) && Url.IsLocalUrl(redirectUrl))
+                // Chuyển hướng về trang yêu cầu hoặc trang mặc định
+                if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
                 {
-                    // Xóa returnUrl khỏi Session sau khi dùng
-                    Session["returnUrl"] = null;
-                    return Redirect(redirectUrl);
+                    return Redirect(returnUrl);
                 }
-
-                // Chuyển hướng về trang mặc định nếu không có URL được lưu
-                return RedirectToAction("Index", "Home");
+                else
+                {
+                    return RedirectToAction("Index", "Shop");
+                }
             }
         }
 
         public ActionResult DangXuat()
         {
+            FormsAuthentication.SignOut();
             Session.Clear(); // Xóa toàn bộ session
             return RedirectToAction("DangNhap", "TaiKhoan");
         }
