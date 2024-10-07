@@ -9,6 +9,8 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using System.Windows;
+using System.Windows.Forms;
 using WebThuongMaiDienTu.Models;
 
 namespace WebThuongMaiDienTu.Controllers
@@ -152,6 +154,22 @@ namespace WebThuongMaiDienTu.Controllers
             {
                 var taiKhoan = db.TaiKhoan.SingleOrDefault(t => t.tenTaiKhoan == model.tenTaiKhoan);
 
+
+
+                if(taiKhoan != null)
+                {
+                  
+                if (this.User.Identity.IsAuthenticated)
+                {
+                   ModelState.AddModelError("", "Bạn đang đăng nhập. Vui lòng đăng xuất trước khi đăng nhập lại.");
+                    return View(model);
+                }
+                }
+                
+
+                
+
+
                 if (taiKhoan == null || taiKhoan.matKhau != HashPassword(model.matKhau))
                 {
                     ModelState.AddModelError("", "Tên tài khoản hoặc mật khẩu không đúng.");
@@ -170,15 +188,18 @@ namespace WebThuongMaiDienTu.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Shop");
                 }
             }
         }
         public ActionResult DangXuat()
         {
+            FormsAuthentication.SignOut();
             Session.Clear(); // Xóa toàn bộ session
             return RedirectToAction("DangNhap", "TaiKhoan");
-        }
+        }  
+        
+  
 
         private string HashPassword(string password)
         {

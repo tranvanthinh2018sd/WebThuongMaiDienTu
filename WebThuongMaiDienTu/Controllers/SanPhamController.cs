@@ -24,7 +24,7 @@ namespace WebThuongMaiDienTu.Controllers
             // Lọc sản phẩm có kichHoat == true và sắp xếp theo maSanPham giảm dần
             List<SanPham> sanpham = db.SanPham
                 .Where(row => row.kichHoat == true) // Điều kiện lọc
-                .OrderByDescending(row => row.maSanPham) // Sắp xếp giảm dần theo maSanPham
+                .OrderBy(row => row.maSanPham)
                 .ToList();
 
             return View(sanpham);
@@ -113,10 +113,11 @@ namespace WebThuongMaiDienTu.Controllers
                 // Nếu không có quyền admin, chuyển hướng về trang đăng nhập
                 return RedirectToAction("DangNhap", "TaiKhoan");
             }
-            shopDienThoaiEntities db = new shopDienThoaiEntities();
+                shopDienThoaiEntities db = new shopDienThoaiEntities();
                 SanPham sanPham = db.SanPham.Where(row => row.maSanPham == sanpham.maSanPham).FirstOrDefault();
-                if(sanpham != null)
-                {
+                if (sanpham != null)
+                { 
+                    string filePath = "";
                     sanPham.maSanPham = sanpham.maSanPham;
                     sanPham.tenSanPham = sanpham.tenSanPham;
                     sanPham.moTa = sanpham.moTa;
@@ -135,17 +136,19 @@ namespace WebThuongMaiDienTu.Controllers
                         string fileName = tenSanPhamKhongKhoangTrang + fileExtension;
 
                         // Đặt đường dẫn lưu tệp hình ảnh
-                        string filePath = "~/Uploads/" + fileName;
+                        filePath = "~/Uploads/" + fileName;
 
                         // Lưu tệp hình ảnh vào thư mục trên máy chủ
                         hinhAnh.SaveAs(Server.MapPath(filePath));
-
+                        sanpham.hinhAnh = filePath.Substring(1);
                         // Cập nhật đường dẫn hình ảnh vào đối tượng sản phẩm (cắt bỏ 2 ký tự đầu ~/)
-                        sanpham.hinhAnh = filePath.Substring(1);  // Lưu với đường dẫn bắt đầu từ Uploads
+                          // Lưu với đường dẫn bắt đầu từ Uploads
                     }
-                }                               
+                    
+                }            
+                
                     db.SaveChanges();
-                    return RedirectToAction("Edit");
+                    return RedirectToAction("Index");
         }
         //Delete
         public ActionResult Delete(int maSanPham)

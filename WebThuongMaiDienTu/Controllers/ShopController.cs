@@ -13,20 +13,20 @@ namespace WebThuongMaiDienTu.Controllers
         public ActionResult Index()
         {
             shopDienThoaiEntities db = new shopDienThoaiEntities();
-            List<SanPham> sanPhams = db.SanPham.ToList();
+            List<SanPham> sanPhams = db.SanPham.Where(row => row.kichHoat == true).ToList();
             return View(sanPhams);
         }
         // GET: Shop/Details/5
         public ActionResult Details(int maSanPham)
         {
             // Kiểm tra quyền quyền khách hàng
-            var taiKhoan = (TaiKhoan)Session["TaiKhoan"];
+           /* var taiKhoan = (TaiKhoan)Session["TaiKhoan"];
             if (taiKhoan == null || taiKhoan.taiKhoanAdmin != false)
             {
                 // Nếu không có quyền khách hàng, chuyển hướng về trang đăng nhập và truyền returnUrl
                 string returnUrl = Url.Action("Details", "Shop", new { maSanPham = maSanPham });
                 return RedirectToAction("DangNhap", "TaiKhoan", new { returnUrl });
-            }
+            }*/
 
             shopDienThoaiEntities db = new shopDienThoaiEntities();
             SanPham sanpham = db.SanPham.Where(row => row.maSanPham == maSanPham).FirstOrDefault();

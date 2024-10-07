@@ -72,7 +72,6 @@
                     showPage(i);
                     setActivePage(i);
                 });
-
                 pagination.appendChild(pageButton);
             }
 
@@ -85,7 +84,6 @@
                 btn.classList.toggle("active", index + 1 === activePage);
             });
         }
-
         // Khởi tạo trang đầu tiên và tạo nút phân trang
         showPage(1);
         createPagination();

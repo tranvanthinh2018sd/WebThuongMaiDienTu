@@ -23,6 +23,14 @@ namespace WebThuongMaiDienTu.Controllers
             List<GioHang> gioHangs = db.GioHang.OrderByDescending(row => row.maGioHang).ToList();
             return View(gioHangs);
         }
+        
+        public ActionResult IndexUser()
+        {
+            var taiKhoan = (TaiKhoan)Session["TaiKhoan"];
+            shopDienThoaiEntities db = new shopDienThoaiEntities();
+            List<GioHang> gioHangs = db.GioHang.OrderByDescending(row => row.maGioHang).Where(row => row.maKhachHang == taiKhoan.maKhachHang).ToList();
+            return View(gioHangs);
+        }
 
         //Edit
         public ActionResult Edit(int maGioHang)

@@ -12,7 +12,7 @@
                 <div class="latest-product">
                     <h2 class="section-title">Sản Phẩm mới</h2>
                     <div class="product-carousel">
-                        @foreach (var items in Model)
+                        @foreach (var items in Model.Take(5))
                         {
                             <div class="single-product">
                                 <div class="product-f-image">
@@ -21,16 +21,16 @@
                                         @*<a href="@Url.Action("AddToCart", "Shop", new { maSanPham = items.maSanPham })" class="add-to-cart-link">
                                             <i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng
                                         </a>*@
-                                        <a href="@Url.Action("Details", "Shop", new { maSanPham = items.maSanPham })" class="view-details-link">
+                                        <a href="~/Shop/Details?maSanPham=@items.maSanPham" class="view-details-link">
                                             <i class="fa fa-link"></i> Xem chi Tiết
                                         </a>
                                     </div>
                                 </div>
 
-                                <h2><a href="#">@items.tenSanPham</a></h2>
+                                <h2><a href="~/Shop/Details?maSanPham=@items.maSanPham">@items.tenSanPham</a></h2>
 
                                 <div class="product-carousel-price">
-                                    <ins>$700.00</ins> <del>$100.00</del>
+                                    <ins>@(string.Format("{0:#,##0}đ", items.giaKhuyenMai))</ins> <del>@(string.Format("{0:#,##0}đ", items.giaBan))</del>
                                 </div>
                             </div>
                         }
@@ -40,5 +40,28 @@
                 </div>
             </div>
         </div>
+    <br />
+    <br />
+    
+    <div class="row">
+
+        <h2 class="section-title">Tất cả sản phẩm</h2>
+        @foreach (var items in Model.Take(8))
+        {
+            <div class="col-md-3 col-sm-6">
+                <div class="single-shop-product">
+                    <div class="product-upper">
+                        <img src="@items.hinhAnh" alt="">
+                    </div>
+                    <h2><a href="">@items.tenSanPham</a></h2>
+                    <div class="product-carousel-price">
+                        <ins>@(string.Format("{0:#,##0}đ", items.giaKhuyenMai))</ins> <del>@(string.Format("{0:#,##0}đ", items.giaBan))</del>
+                    </div>
+
+
+                </div>
+            </div>
+        }
+
     </div>
-</div> <!-- End main content area -->
+    </div> <!-- End main content area -->

@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@using System.Web
+@using WebThuongMaiDienTu.Models
+@{
+    var taiKhoan = (TaiKhoan)Session["TaiKhoan"];
+}
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -26,38 +31,28 @@
                 <div class="col-md-8">
                     <div class="user-menu">
                         <ul>
-                            <li><a href="#"><i class="fa fa-user"></i> My Account</a></li>
-                            <li><a href="#"><i class="fa fa-heart"></i> Wishlist</a></li>
-                            <li><a href="cart.html"><i class="fa fa-user"></i> My Cart</a></li>
-                            <li><a href="checkout.html"><i class="fa fa-user"></i> Checkout</a></li>
-                            <li><a href="#"><i class="fa fa-user"></i> Login</a></li>
+                            @* <li><a href="#"><i class="fa fa-user"></i> My Account</a></li>
+                                <li><a href="#"><i class="fa fa-heart"></i> Wishlist</a></li>
+                                <li><a href="cart.html"><i class="fa fa-user"></i> My Cart</a></li>
+                                <li><a href="checkout.html"><i class="fa fa-user"></i> Checkout</a></li>
+                                <li><a href="#"><i class="fa fa-user"></i> Login</a></li>*@
+                            @if (taiKhoan == null)
+                            {
+
+
+                                <li><a href="~/TaiKhoan/DangNhap"><i class="fa fa-user"></i> Đăng nhập</a></li>
+                            }
+                            else
+                            {
+                        <div>
+                            <span style="color:red;">@taiKhoan.tenTaiKhoan</span>&nbsp;&nbsp;&nbsp;&nbsp; <a href="#" style="color:black;text-decoration-color:red">Đổi mật khẩu</a> &nbsp;&nbsp;&nbsp;&nbsp; <a href="@Url.Action("DangXuat", "TaiKhoan")" style="color:black;text-decoration-color:red">Đăng xuất</a>
+                        </div>
+                            }
                         </ul>
                     </div>
                 </div>
 
-                <div class="col-md-4">
-                    <div class="header-right">
-                        <ul class="list-unstyled list-inline">
-                            <li class="dropdown dropdown-small">
-                                <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" href="#"><span class="key">currency :</span><span class="value">USD </span><b class="caret"></b></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">USD</a></li>
-                                    <li><a href="#">INR</a></li>
-                                    <li><a href="#">GBP</a></li>
-                                </ul>
-                            </li>
-
-                            <li class="dropdown dropdown-small">
-                                <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" href="#"><span class="key">language :</span><span class="value">English </span><b class="caret"></b></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">English</a></li>
-                                    <li><a href="#">French</a></li>
-                                    <li><a href="#">German</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+              
             </div>
         </div>
     </div> <!-- End header area -->
@@ -73,7 +68,7 @@
 
                 <div class="col-sm-6">
                     <div class="shopping-item">
-                        <a href="cart.html">Cart - <span class="cart-amunt">$100</span> <i class="fa fa-shopping-cart"></i> <span class="product-count">5</span></a>
+                        <a href="~/GioHang/IndexUser">Giỏ hàng - <i class="fa fa-shopping-cart"></i></a>
                     </div>
                 </div>
             </div>
@@ -93,31 +88,17 @@
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="shop.html">Shop page</a></li>
-                        <li class="active"><a href="single-product.html">Single product</a></li>
-                        <li><a href="cart.html">Cart</a></li>
-                        <li><a href="checkout.html">Checkout</a></li>
-                        <li><a href="#">Category</a></li>
-                        <li><a href="#">Others</a></li>
-                        <li><a href="#">Contact</a></li>
+                        <li class="active"><a href="~/Shop/">Trang chủ</a></li>
+
+                        <li><a href="">Giỏ hàng</a></li>
+
+                        <li><a href="#">Liên hệ</a></li>
                     </ul>
                 </div>
             </div>
         </div>
     </div> <!-- End mainmenu area -->
 
-    <div class="product-big-title-area">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="product-bit-title text-center">
-                        <h2>Shop</h2>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
     <div>
         @RenderBody()
     </div>
@@ -142,38 +123,17 @@
                     <div class="footer-menu">
                         <h2 class="footer-wid-title">User Navigation </h2>
                         <ul>
-                            <li><a href="">My account</a></li>
-                            <li><a href="">Order history</a></li>
-                            <li><a href="">Wishlist</a></li>
-                            <li><a href="">Vendor contact</a></li>
-                            <li><a href="">Front page</a></li>
+                            <li class="active"><a href="~/Shop/">Trang chủ</a></li>
+
+                            <li><a href="">Giỏ hàng</a></li>
+
+                            <li><a href="#">Liên hệ</a></li>
                         </ul>
                     </div>
                 </div>
 
-                <div class="col-md-3 col-sm-6">
-                    <div class="footer-menu">
-                        <h2 class="footer-wid-title">Categories</h2>
-                        <ul>
-                            <li><a href="">Mobile Phone</a></li>
-                            <li><a href="">Home accesseries</a></li>
-                            <li><a href="">LED TV</a></li>
-                            <li><a href="">Computer</a></li>
-                            <li><a href="">Gadets</a></li>
-                        </ul>
-                    </div>
-                </div>
 
-                <div class="col-md-3 col-sm-6">
-                    <div class="footer-newsletter">
-                        <h2 class="footer-wid-title">Newsletter</h2>
-                        <p>Sign up to our newsletter and get exclusive deals you wont find anywhere else straight to your inbox!</p>
-                        <div class="newsletter-form">
-                            <input type="email" placeholder="Type your email">
-                            <input type="submit" value="Subscribe">
-                        </div>
-                    </div>
-                </div>
+
             </div>
         </div>
     </div>

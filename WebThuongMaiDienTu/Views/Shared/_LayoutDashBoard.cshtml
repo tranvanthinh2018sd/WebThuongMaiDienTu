@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@using WebThuongMaiDienTu.Models
+@{
+    var taiKhoan = (TaiKhoan)Session["TaiKhoan"];
+}
+
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -12,10 +17,12 @@
     <link rel="stylesheet" href="~/Content/css/Index.css">
     <link rel="stylesheet" href="~/Content/css/Create.css">
     <link rel="stylesheet" href="~/Content/css/LayoutDashBoard.css">
+
 </head>
 <body>
+   
     <div class="sidebar">
-        <ul >
+        <ul>
             <a style="color:white" href="/SanPham/Index">
             <li><i class="fas fa-box"></i> Sản Phẩm</li></a>
             <a style="color:white" href="/KhachHang/Index">
@@ -39,8 +46,9 @@
     <div class="main-content">
         <div class="header">
             <div class="profile-icons">
-                <i class="fas fa-bell"></i>
-                <i class="fas fa-envelope"></i>
+                <div class="logo">
+                    <h1><a href="./"><img src="~/Assets/img/vertu.jpg" width="150"></a></h1>
+                </div>
             </div>
             <!-- Thêm phần đăng nhập/đăng xuất -->
             <div class="auth-section">
@@ -59,21 +67,9 @@
             @RenderBody()
         </div>
         <footer class="footer">
-            <div class="footer-content">
-                <div class="footer-links">
-                    <a href="#">About Us</a>
-                    <a href="#">Contact</a>
-                    <a href="#">Privacy Policy</a>
-                    <a href="#">Terms of Service</a>
-                </div>
-                <div class="footer-social">
-                    <i class="fab fa-facebook"></i>
-                    <i class="fab fa-twitter"></i>
-                    <i class="fab fa-instagram"></i>
-                    <i class="fab fa-linkedin"></i>
-                </div>
+            <div class="copyright">
+                <p>&copy;2024 Dashboard  </p>
             </div>
-            <p>&copy; 2023 Your Company Name. All rights reserved.</p>
         </footer>
     </div>
     <script>
@@ -111,12 +107,12 @@
         // Add keyframe for pulse effect
         const style = document.createElement('style');
         style.textContent = `
-                @@keyframes pulse {
-                    0% { transform: scale(1); }
-                    50% { transform: scale(1.2); }
-                    100% { transform: scale(1); }
-                }
-            `;
+                        @@keyframes pulse {
+                            0% { transform: scale(1); }
+                            50% { transform: scale(1.2); }
+                            100% { transform: scale(1); }
+                        }
+                    `;
         document.head.appendChild(style);
 
         // Responsive sidebar toggle
